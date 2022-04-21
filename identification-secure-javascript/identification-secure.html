@@ -1,0 +1,150 @@
+﻿<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Secure Authentication Anti Key-Logger</title>
+	<meta name="description" content="Identification of a user" />
+	<meta name="robots" content="index,follow" />
+	<meta http-equiv="content-language" content="fr" />
+	<link href='styles/styles.css' rel='stylesheet' type='text/css' />
+	<script language="Javascript" src="js/paire_id.js"></script>
+</head>
+
+<body>
+
+	<!-- <img src="images/logo.png" style="width:50px;border:none;" align="left" alt="logo" /> -->
+
+	<div class="title_page">
+		<h1>Anti-KeyLogger Secure Authentication</h1>
+	</div>
+
+	<div class="div_int_page">
+
+		<div style="width:100%;display:block;text-align:center;">
+		</div>
+
+		<div class="div_line_break" style="height:30px;">
+		</div>
+
+		<div style="float:left;width:10%;height:40px;"></div>
+		<div style="float:left;width:80%;height:40px;text-align:center;">
+			<div
+				style="width:auto;display:block;height:auto;text-align:center;background-color:#f8f8ff;border:#7030a0 1px solid;padding-top:12px;box-shadow: 6px 6px 0px #aaa;color:#7030a0;">
+				<h1>Identification without entering the password</h1>
+			</div>
+		</div>
+
+		<div style="float:left;width:10%;height:40px;"></div>
+
+		<div class="div_line_break">
+		</div>
+
+		<div style="width:100%;height:auto;text-align:center;">
+
+			<div style="width:800px;display:inline-block;" id="conteneur">
+
+				<div class="centre">
+					<div class="title_centre" id="title" style="text-align:left;padding-left:10px;">
+						Please enter your username and click on the numbers of the PAD for the password.
+					</div>
+				</div>
+				<div class="column" id="list">
+					<div id="grid">
+						<div class="case" id="case0"></div>
+						<div class="case" id="case1"></div>
+						<div class="case" id="case2"></div>
+						<div class="case" id="case3"></div>
+						<div class="case" id="case4"></div>
+						<div class="case" id="case5"></div>
+						<div class="case" id="case6"></div>
+						<div class="case" id="case7"></div>
+						<div class="case" id="case8"></div>
+						<div class="case" id="case9"></div>
+						<div class="case" id="case10"></div>
+						<div class="case" id="case11"></div>
+						<div class="case" id="case12"></div>
+						<div class="case" id="case13"></div>
+						<div class="case" id="case14"></div>
+						<div class="case" id="case15"></div>
+					</div>
+					<input type="text" id="user" maxlength="10" value="Your username" onClick="init_enter('1')"
+						onMouseOut="init_enter('2')" />
+					<input type="password" id="password" maxlength="6" value="" readOnly />
+					<input type="button" class="button" value="Validate" onClick="validation()" />
+					<input type="button" class="button" value="Generate" onClick="generation()" /><br />
+					<!-- <span style="font-size:14px;font-weight:normal;">Pair to validate:<strong>Archisa|130324</strong></span> -->
+				</div>
+
+				<div class="centre">
+					<div class="title_centre" id="message">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="div_line_break" style="height:50px;">
+		</div>
+	</div>
+	</div>
+	</div>
+</body>
+<script type="text/javascript" language="javascript">
+	generation();
+
+	function generation() {
+		var gen;
+		var test = true; var chain = "";
+
+		remove();
+
+		for (var i = 0; i < 10; i++) {
+			while (test == true) {
+				gen = Math.floor(Math.random() * 16);
+				if (chain.indexOf("-" + gen + "-") > -1)
+					gen = Math.floor(Math.random() * 16);
+				else {
+					document.getElementById('case' + gen).innerHTML = "<input type='button' class='btn' value='" + i + "' onClick='document.getElementById(\"password\").value += " + i + "' />";
+					chain += "-" + gen + "-";
+					test = false;
+				}
+			}
+			test = true;
+		}
+	}
+
+	function remove() {
+		for (var i = 0; i < 16; i++) {
+			document.getElementById('case' + i).innerHTML = "";
+		}
+		document.getElementById('user').value = "Your username";
+		document.getElementById('password').value = "";
+	}
+
+
+	function init_enter(mode) {
+		if (mode == '1' && document.getElementById('user').value == 'Your username')
+			document.getElementById('user').value = '';
+		else if (document.getElementById('user').value == '')
+			document.getElementById('user').value = 'Your username';
+
+	}
+	function validation() {
+		var combination = id_mp().split('|');
+		var ident = combination[0];
+		var mp = combination[1];
+
+		if (document.getElementById('user').value.toLowerCase() == ident.toLowerCase() && document.getElementById('password').value == mp) {
+			document.getElementById("message").innerText = "You are successfully identified!";
+		}
+
+
+		else {
+			document.getElementById("message").innerText = "Sorry couldnt identify you";
+
+		}
+	}
+
+</script>
+
+</html>
